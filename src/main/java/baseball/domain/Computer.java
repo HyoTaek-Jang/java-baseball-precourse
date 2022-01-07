@@ -14,6 +14,28 @@ public class Computer {
 
     private String answer;
 
+    public class BaseballResult {
+        public int getStrike() {
+            return strike;
+        }
+
+        int strike;
+        int ball;
+
+        public BaseballResult(int strike, int ball) {
+            this.strike = strike;
+            this.ball = ball;
+        }
+
+        @Override
+        public String toString() {
+            return ball
+                + "볼 "
+                + strike
+                + "스트라이크";
+        }
+    }
+
     public String createAnswer() {
         List<String> answerList = new ArrayList<>();
         while(answerList.size() != ANSWER_LENGTH){
@@ -21,13 +43,25 @@ public class Computer {
             if(!answerList.contains(number)) answerList.add(String.valueOf(number));
         }
 
-        return String.join("", answerList);
+        answer = String.join("", answerList);
+        return answer;
     }
 
-    public boolean isCorrectAnswer(String inputNumber) {
-        if (inputNumber.equals(answer)) {
-            return true;
+    public BaseballResult isCorrectAnswer(String inputNumber) {
+        int strike = 0;
+        int ball = 0;
+
+        for (int i = 0; i < ANSWER_LENGTH; i++) {
+            if (inputNumber.charAt(i) == answer.charAt(i))
+                strike++;
+            else if (answer.contains(String.valueOf(inputNumber.charAt(i)))) {
+                ball++;
+            }
         }
-        return true;
+
+        return new BaseballResult(strike, ball);
     }
+
+
+
 }

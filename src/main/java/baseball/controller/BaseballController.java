@@ -16,12 +16,13 @@ public class BaseballController {
     public BaseballController(Computer computer, Player player) {
         this.computer = computer;
         this.player = player;
+        String asdf = " ";
     }
 
     public void run(){
         computer.createAnswer();
-        if (computer.isCorrectAnswer(player.getNumber())) {
+        // if (computer.isCorrectAnswer(player.getNumber())) {
         //TO-DO : 모두 맞췄을 때, 아웃풋 메시지 출력, 게임 시작 여부(Input)
-        }
+        // }
     }
 }

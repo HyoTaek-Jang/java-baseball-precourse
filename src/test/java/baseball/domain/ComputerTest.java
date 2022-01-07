@@ -37,4 +37,17 @@ class ComputerTest {
         Assertions.assertThat(Arrays.stream(split).distinct().toArray().length).isEqualTo(ANSWER_LENGTH);
     }
 
+    @Test
+    void successAnswerTest() {
+        //given
+        Computer computer = new Computer();
+
+        //when
+        String answer = computer.createAnswer();
+        Computer.BaseballResult correctAnswer = computer.isCorrectAnswer(answer);
+
+        //then
+        Assertions.assertThat(correctAnswer.getStrike()).isEqualTo(ANSWER_LENGTH);
+    }
+
 }
