@@ -2,8 +2,12 @@ package baseball.controller;
 
 import baseball.domain.Computer;
 import baseball.domain.Player;
+import baseball.validation.Validation;
 import baseball.view.Input;
 import baseball.view.Output;
+import jdk.nashorn.internal.objects.annotations.Where;
+
+import static baseball.constant.Constant.EXIT;
 
 /**
  * Created by bangjinhyuk on 2022/01/07.
@@ -16,13 +20,22 @@ public class BaseballController {
     public BaseballController(Computer computer, Player player) {
         this.computer = computer;
         this.player = player;
-        String asdf = " ";
     }
 
     public void run(){
-        computer.createAnswer();
-        // if (computer.isCorrectAnswer(player.getNumber())) {
-        //TO-DO : 모두 맞췄을 때, 아웃풋 메시지 출력, 게임 시작 여부(Input)
-        // }
+        while(true){
+            Computer.BaseballResult baseballResult = computer.isCorrectAnswer(requestAnswer());
+            Output.resultMsg(baseballResult);
+            if (baseballResult.isSuccessed()) {
+                Output.successMsg();
+                if (Input.getRestartMsg().equals(EXIT)) return;
+                computer.createAnswer();
+            }
+        }
+    }
+
+    private String requestAnswer(){
+        String number = player.getNumber();
+        return Validation.validateInputNumber(number);
     }
 }

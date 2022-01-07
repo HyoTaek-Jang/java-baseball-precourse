@@ -14,6 +14,10 @@ public class Computer {
 
     private String answer;
 
+    public Computer() {
+        createAnswer();
+    }
+
     public class BaseballResult {
         public int getStrike() {
             return strike;
@@ -25,6 +29,10 @@ public class Computer {
         public BaseballResult(int strike, int ball) {
             this.strike = strike;
             this.ball = ball;
+        }
+
+        public boolean isSuccessed(){
+            return strike == ANSWER_LENGTH;
         }
 
         @Override

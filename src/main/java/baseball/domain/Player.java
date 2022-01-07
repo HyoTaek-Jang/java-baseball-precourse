@@ -11,7 +11,7 @@ public class Player {
 
 	public String getNumber() {
 		Input.getNumberMsg();
-		this.inputNumber = Input.getNumber();
+		this.inputNumber = Input.getNumberMsg();
 		return inputNumber;
 	}
 }
