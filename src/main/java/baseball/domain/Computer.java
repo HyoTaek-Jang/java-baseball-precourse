@@ -2,6 +2,9 @@ package baseball.domain;
 
 import static baseball.constant.Constant.*;
 
+import baseball.validation.Validation;
+import baseball.view.Input;
+import baseball.view.Output;
 import camp.nextstep.edu.missionutils.Randoms;
 
 import java.util.ArrayList;
@@ -12,64 +15,85 @@ import java.util.List;
  */
 public class Computer {
 
-    private String answer;
+	private String answer;
 
-    public Computer() {
-        createAnswer();
-    }
+	public Computer() {
+		createAnswer();
+	}
 
-    public class BaseballResult {
-        public int getStrike() {
-            return strike;
-        }
+	public class BaseballResult {
+		int strike;
+		int ball;
 
-        int strike;
-        int ball;
+		public int getStrike() {
+			return strike;
+		}
 
-        public BaseballResult(int strike, int ball) {
-            this.strike = strike;
-            this.ball = ball;
-        }
+		public BaseballResult(int strike, int ball) {
+			this.strike = strike;
+			this.ball = ball;
+		}
 
-        public boolean isSuccessed(){
-            return strike == ANSWER_LENGTH;
-        }
+		public boolean isSuccessed() {
+			return strike == ANSWER_LENGTH;
+		}
 
-        @Override
-        public String toString() {
-            return ball
-                + "볼 "
-                + strike
-                + "스트라이크";
-        }
-    }
+		public boolean isRestart() {
+			if (isSuccessed()) {
+				Output.successMsg();
+                String restart = Input.getRestartMsg();
+                Validation.validateRestartNumber(restart);
+                if (restart.equals(EXIT))
+					return true;
+				createAnswer();
+			}
+			return false;
+		}
 
-    public String createAnswer() {
-        List<String> answerList = new ArrayList<>();
-        while(answerList.size() != ANSWER_LENGTH){
-            int number = Randoms.pickNumberInRange(ANSWER_START, ANSWER_END);
-            if(!answerList.contains(number)) answerList.add(String.valueOf(number));
-        }
+		@Override
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			if (ball != 0) {
+				sb.append(ball)
+					.append("볼 ");
+			}
+			if (strike != 0) {
+				sb.append(strike)
+					.append("스트라이크");
+			}
+			if (ball == 0 && strike == 0) {
+				sb.append("낫싱");
+			}
 
-        answer = String.join("", answerList);
-        return answer;
-    }
+			return sb.toString();
+		}
+	}
 
-    public BaseballResult isCorrectAnswer(String inputNumber) {
-        int strike = 0;
-        int ball = 0;
+	public String createAnswer() {
+		List<String> answerList = new ArrayList<>();
+		while (answerList.size() != ANSWER_LENGTH) {
+			String number = String.valueOf(Randoms.pickNumberInRange(ANSWER_START, ANSWER_END));
+			if (!answerList.contains(number))
+				answerList.add(number);
+		}
 
-        for (int i = 0; i < ANSWER_LENGTH; i++) {
-            if (inputNumber.charAt(i) == answer.charAt(i))
-                strike++;
-            else if (answer.contains(String.valueOf(inputNumber.charAt(i)))) {
-                ball++;
-            }
-        }
+		answer = String.join("", answerList);
+		return answer;
+	}
 
-        return new BaseballResult(strike, ball);
-    }
+	public BaseballResult isCorrectAnswer(String inputNumber) {
+		int strike = 0;
+		int ball = 0;
 
+		for (int i = 0; i < ANSWER_LENGTH; i++) {
+			if (inputNumber.charAt(i) == answer.charAt(i))
+				strike++;
+			else if (answer.contains(String.valueOf(inputNumber.charAt(i)))) {
+				ball++;
+			}
+		}
 
+		return new BaseballResult(strike, ball);
+	}
 
 }

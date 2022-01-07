@@ -7,11 +7,7 @@ import baseball.view.Input;
  */
 public class Player {
 
-	private String inputNumber;
-
 	public String getNumber() {
-		Input.getNumberMsg();
-		this.inputNumber = Input.getNumberMsg();
-		return inputNumber;
+		return Input.getNumberMsg();
 	}
 }

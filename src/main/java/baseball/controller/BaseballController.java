@@ -14,28 +14,25 @@ import static baseball.constant.Constant.EXIT;
  */
 public class BaseballController {
 
-    Computer computer;
-    Player player;
+	Computer computer;
+	Player player;
 
-    public BaseballController(Computer computer, Player player) {
-        this.computer = computer;
-        this.player = player;
-    }
+	public BaseballController(Computer computer, Player player) {
+		this.computer = computer;
+		this.player = player;
+	}
 
-    public void run(){
-        while(true){
-            Computer.BaseballResult baseballResult = computer.isCorrectAnswer(requestAnswer());
-            Output.resultMsg(baseballResult);
-            if (baseballResult.isSuccessed()) {
-                Output.successMsg();
-                if (Input.getRestartMsg().equals(EXIT)) return;
-                computer.createAnswer();
-            }
-        }
-    }
+	public void run() {
+		while (true) {
+			Computer.BaseballResult baseballResult = computer.isCorrectAnswer(requestAnswer());
+			Output.resultMsg(baseballResult);
+			if (baseballResult.isRestart())
+				return;
+		}
+	}
 
-    private String requestAnswer(){
-        String number = player.getNumber();
-        return Validation.validateInputNumber(number);
-    }
+	private String requestAnswer() {
+		String number = player.getNumber();
+		return Validation.validateInputNumber(number);
+	}
 }
